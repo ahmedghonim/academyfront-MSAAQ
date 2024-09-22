@@ -1,0 +1,68 @@
+"use client";
+
+import { useState } from "react";
+
+import { useTranslations } from "next-intl";
+
+import { ArticleCard } from "@/components/article";
+import { LoadingCard } from "@/components/loading-card";
+import Pagination from "@/components/pagination";
+import { useFetchArticlesQuery } from "@/store/slices/api/articleSlice";
+import { Article, PageBlock } from "@/types";
+
+import { Button } from "@msaaqcom/abjad";
+import { cn } from "@msaaqcom/abjad/dist/theme";
+
+import BaseSection, { getGrid } from "./base-section";
+
+export default function Articles({ block }: { block: PageBlock<"articles">; children?: React.ReactNode }) {
+  const t = useTranslations();
+  const [articles, setArticles] = useState<Article[]>(block.data.data);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  const handlePageChange = (data: Article[]) => {
+    setArticles(data);
+  };
+
+  return (
+    <BaseSection block={block}>
+      <div className="col-span-12">
+        <div className={cn("grid w-full gap-8", getGrid(block))}>
+          {isFetching
+            ? Array.from({ length: block.fields_values.col }, (_, index) => <LoadingCard key={index} />)
+            : articles.map((article: Article, index: number) => {
+                return (
+                  <ArticleCard
+                    article={article}
+                    key={index}
+                  />
+                );
+              })}
+        </div>
+        {articles.length ? (
+          <Pagination
+            showMoreAction={
+              <Button
+                href="/blog"
+                size="sm"
+              >
+                {t("common.show_all_with_total", {
+                  total: block.data.total
+                })}
+              </Button>
+            }
+            total={block.data.total}
+            links={block?.data?.links}
+            fetchQuery={useFetchArticlesQuery}
+            params={{
+              page: block.data.current_page,
+              limit: block.data.per_page
+            }}
+            onPageChange={handlePageChange}
+            onFetching={(fetching) => setIsFetching(fetching)}
+          />
+        ) : null}
+      </div>
+    </BaseSection>
+  );
+}

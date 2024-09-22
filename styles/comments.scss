@@ -1,0 +1,27 @@
+.comment-border-body {
+  position: relative;
+
+  &:after {
+    @apply content-[""] absolute  left-[15px] rtl:left-[unset] rtl:right-[15px] top-10 z-[1] h-[calc(100%_-_116px)] border-r-2 border-dashed border-gray;
+  }
+
+  .comment-border-item {
+    position: relative;
+
+    &:after {
+      @apply content-[""] absolute w-10  left-[-25px]  rtl:left-[unset] rtl:right-[-25px]  z-[1] h-[calc(100%_-_82px)] border-b-2 border-dashed border-gray;
+    }
+
+  }
+
+  @media (max-width: 425px) {
+    &:after {
+      @apply h-[calc(100%_-_168px)];
+    }
+    .comment-border-item {
+      &:after {
+        @apply h-[calc(100%_-_135px)];
+      }
+    }
+  }
+}

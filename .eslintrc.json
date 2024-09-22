@@ -1,0 +1,51 @@
+{
+  "extends": "next/core-web-vitals",
+  "plugins": ["unused-imports"],
+  "rules": {
+    "no-console": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-unused-vars": "off",
+    "react/display-name": "off",
+    "react/no-children-prop": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var"],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "next/link",
+        "message": "Please import from `@/utils/navigation` instead."
+      },
+      {
+        "name": "next/navigation",
+        "importNames": ["redirect", "permanentRedirect", "useRouter", "usePathname"],
+        "message": "Please import from `@/utils/navigation` instead."
+      }
+    ]
+  }
+}
